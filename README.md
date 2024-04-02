@@ -10,7 +10,9 @@ WebRTC-Wheelie is a cutting-edge remote-controlled car that leverages the power 
 
 To get started with the WebRTC-Wheelie project, follow these steps:
 
-1. **Set up your Raspberry Pi**: Follow the instructions to set up your Raspberry Pi with the necessary software and connect it to the internet.
+1. **Deploy Cloud formation template**: Follow the installation section
+
+2. **Set up your Raspberry Pi**: Follow the instructions to set up your Raspberry Pi with the necessary software and connect it to the internet.
 
 2. **Assemble the RC car**: Attach the Raspberry Pi and camera to your RC car and ensure it's powered correctly.
 
@@ -40,21 +42,38 @@ Before you begin, make sure you have the following:
 git clone https://github.com/your-username/WebRTC-Wheelie.git
 
 # Navigate to the repository directory
-cd WebRTC-Wheelie
+cd WebRTC-Wheelie/aws
 
 # Install dependencies
 npm install
+
+# Synthesize & Deploy Cloud formation template
+cdk synth
+cdk deploy
 ```
 
-## Usage
+## Raspberry PI Installation
+You will need a freshly installed RaspberryPI (Instruction available on [www.raspberrypi.com](https://www.raspberrypi.com/documentation/computers/getting-started.html#install-an-operating-system)).
 
-To use the WebRTC-Wheelie, execute the main script:
+You can use the Raspberry Pi in headless mode, that is, without an attached keyboard, monitor, or network cable:
+1. On your computer, create a file named `wpa_supplicant.conf`.
+2. Copy the following text and paste it into the `wpa_supplicant.conf` file:
 
-```bash
-python main.py
 ```
+country=US
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network={
+    ssid="Your Wi-Fi SSID"
+    scan_ssid=1
+    key_mgmt=WPA-PSK
+    psk="Your Wi-Fi Password"
+}
+```
+3. Replace the **ssid** and **psk** values with the information for your Wi-Fi network.
+4. Copy the `wpa_supplicant.conf` file to the SD card. It must be copied to the root of the `boot` volume.
+5. Insert the SD card into the Raspberry Pi, and power the device. It joins your Wi-Fi network, and SSH is enabled.
 
-This will start the server and begin streaming video from the Raspberry Pi's camera to the AWS Kinesis Video Stream service.
 
 ## Contributing
 
